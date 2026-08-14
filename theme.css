@@ -12,6 +12,13 @@
   --eb-max-width: 760px;
 }
 
+:root[data-theme='dark'] { color-scheme: dark; }
+:root[data-theme='light'] { color-scheme: light; }
+
+:root[data-density='compact'] { --eb-space: 6px; }
+:root[data-density='comfortable'] { --eb-space: 8px; }
+:root[data-density='spacious'] { --eb-space: 12px; }
+
 * { box-sizing: border-box; }
 
 body {
@@ -24,50 +31,21 @@ body {
 }
 
 .eb-container { max-width: var(--eb-max-width); margin: 0 auto; }
-.eb-card {
-  background: var(--eb-surface);
-  border: 1px solid var(--eb-border);
-  border-radius: var(--eb-radius);
-  box-shadow: var(--eb-shadow);
-  padding: 20px;
-  margin: 16px 0;
-}
-
+.eb-card { background: var(--eb-surface); border: 1px solid var(--eb-border); border-radius: var(--eb-radius); box-shadow: var(--eb-shadow); padding: 20px; margin: 16px 0; }
 .eb-muted { color: var(--eb-muted); }
-
 a { color: var(--eb-accent); }
-
-button, input, select {
-  font: inherit;
-  padding: 9px 11px;
-  border-radius: 8px;
-  border: 1px solid var(--eb-border);
-}
-
-button {
-  cursor: pointer;
-  background: var(--eb-accent);
-  color: white;
-  border-color: var(--eb-accent);
-}
-
+button, input, select { font: inherit; padding: 9px 11px; border-radius: 8px; border: 1px solid var(--eb-border); }
+button { cursor: pointer; background: var(--eb-accent); color: white; border-color: var(--eb-accent); }
 button:hover { background: var(--eb-accent-hover); }
 button.secondary { background: var(--eb-surface); color: var(--eb-text); }
-
 input, select { background: var(--eb-surface); color: var(--eb-text); }
-
-.eb-row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
-.eb-spread { display: flex; justify-content: space-between; gap: 12px; align-items: center; flex-wrap: wrap; }
+.eb-row { display: flex; gap: var(--eb-space); align-items: center; flex-wrap: wrap; }
+.eb-spread { display: flex; justify-content: space-between; gap: var(--eb-space); align-items: center; flex-wrap: wrap; }
 .eb-list { padding-left: 24px; }
-.eb-list li { margin: 9px 0; }
+.eb-list li { margin: var(--eb-space) 0; }
 
 @media (prefers-color-scheme: dark) {
-  :root {
-    --eb-bg: #111318;
-    --eb-surface: #1a1d24;
-    --eb-text: #f3f4f6;
-    --eb-muted: #a3aab5;
-    --eb-border: #343943;
-    --eb-shadow: 0 2px 10px rgba(0,0,0,.2);
+  :root:not([data-theme='light']) {
+    --eb-bg: #111318; --eb-surface: #1a1d24; --eb-text: #f3f4f6; --eb-muted: #a3aab5; --eb-border: #343943; --eb-shadow: 0 2px 10px rgba(0,0,0,.2);
   }
 }
