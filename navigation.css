@@ -1,15 +1,16 @@
 .eb-navigation {
+  flex: 1 1 auto;
+  min-height: 0;
   display: grid;
-  grid-template-columns: 48px minmax(180px, 260px) 1fr;
-  min-height: calc(100vh - 100px);
+  grid-template-columns: 40px 190px minmax(0, 1fr);
 }
 
 .eb-app-rail {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
-  padding: 8px 4px;
+  gap: 3px;
+  padding: 6px 3px;
   border-right: 1px solid var(--eb-border);
   background: var(--eb-surface);
 }
@@ -21,24 +22,21 @@
   border: 1px solid transparent;
 }
 
-.eb-app-button {
-  width: 40px;
-  min-height: 40px;
-}
-
-.eb-app-button[aria-current="true"] {
-  border-color: var(--eb-border);
-  background: var(--eb-bg);
-}
+.eb-app-button { width: 34px; min-height: 34px; padding: 4px; }
+.eb-app-button[aria-current="true"] { border-color: var(--eb-border); background: var(--eb-bg); }
 
 .eb-tree {
-  padding: 8px 6px;
+  padding: 5px;
   border-right: 1px solid var(--eb-border);
   background: var(--eb-surface);
   overflow: auto;
 }
 
-.eb-tree-row { min-height: 30px; display: flex; align-items: center; }
-.eb-tree-node { width: 100%; text-align: left; padding: 4px 8px; }
-.eb-tree-node:hover,
-.eb-app-button:hover { background: var(--eb-bg); }
+.eb-tree-row { min-height: 26px; display: flex; align-items: center; }
+.eb-tree-node { width: 100%; text-align: left; padding: 3px 6px; }
+.eb-tree-node:hover, .eb-app-button:hover { background: var(--eb-bg); }
+
+@media (max-width: 720px) {
+  .eb-navigation { grid-template-columns: 36px minmax(0, 1fr); }
+  .eb-tree { display: none; }
+}
