@@ -1,0 +1,40 @@
+.eb-shell {
+  min-height: 100vh;
+  background: var(--eb-bg);
+  color: var(--eb-text);
+}
+
+.eb-header,
+.eb-subheader {
+  border-bottom: 1px solid var(--eb-border);
+  background: var(--eb-surface);
+}
+
+.eb-header {
+  min-height: 56px;
+  padding: 8px 16px;
+}
+
+.eb-subheader {
+  min-height: 44px;
+  padding: 6px 16px;
+}
+
+.eb-header-inner,
+.eb-subheader-inner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.eb-header-inner { justify-content: space-between; }
+.eb-subheader-inner { justify-content: space-between; }
+
+.eb-brand { font-weight: 700; text-decoration: none; color: var(--eb-text); }
+.eb-app-name { color: var(--eb-muted); }
+.eb-view-controls { display: flex; gap: 4px; align-items: center; flex-wrap: wrap; }
+.eb-view-button { background: transparent; color: var(--eb-text); border-color: transparent; }
+.eb-view-button[aria-current="true"] { background: var(--eb-bg); border-color: var(--eb-border); }
+
+.eb-main { padding: 20px; }
