@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>eBliss Theme</title>
+  <link rel="stylesheet" href="theme.css">
+  <link rel="stylesheet" href="shell.css">
+  <link rel="stylesheet" href="navigation.css">
+  <style>
+    .theme-editor { display:grid; grid-template-columns:minmax(320px,1fr) minmax(280px,420px); gap:20px; }
+    .property-table { width:100%; border-collapse:collapse; }
+    .property-table th,.property-table td { padding:8px; border-bottom:1px solid var(--eb-border); text-align:left; }
+    .property-table input[type=color] { width:44px; height:34px; padding:2px; }
+    .preview { min-height:240px; border:1px solid var(--eb-border); border-radius:var(--eb-radius); padding:16px; background:var(--eb-bg); }
+    @media(max-width:800px){.theme-editor{grid-template-columns:1fr}.eb-navigation{grid-template-columns:44px 180px 1fr}}
+  </style>
+</head>
+<body>
+<div class="eb-shell">
+  <header class="eb-header"><div class="eb-header-inner">
+    <div class="eb-row"><a class="eb-brand" href="/">eBliss</a><span class="eb-app-name">Theme</span></div>
+    <div class="eb-row"><select id="appearance" aria-label="Appearance"><option value="system">System</option><option value="light">Light</option><option value="dark">Dark</option></select><button class="secondary">Account</button></div>
+  </div></header>
+  <div class="eb-navigation">
+    <nav class="eb-app-rail" aria-label="Applications"><button class="eb-app-button" aria-current="true" title="Theme">🎨</button><button class="eb-app-button" title="Lists">☷</button></nav>
+    <nav class="eb-tree" aria-label="Themes">
+      <div class="eb-tree-row"><button class="eb-tree-node">▾ Themes</button></div>
+      <div class="eb-tree-row"><button class="eb-tree-node">• eBliss Default</button></div>
+      <div class="eb-tree-row"><button class="eb-tree-node">• Joshua</button></div>
+      <div class="eb-tree-row"><button class="eb-tree-node">• Holarchy</button></div>
+    </nav>
+    <main class="eb-main">
+      <div class="eb-subheader" style="margin:-20px -20px 20px"><div class="eb-subheader-inner"><strong>Joshua</strong><div class="eb-view-controls"><button class="eb-view-button secondary" aria-current="true">2D</button><button class="eb-view-button secondary">Text</button></div></div></div>
+      <div class="theme-editor">
+        <section><div class="eb-spread"><h2>Theme Properties</h2><div><button id="reset" class="secondary">Reset</button><button id="save">Save</button></div></div>
+          <table class="property-table"><thead><tr><th>Property</th><th>Value</th></tr></thead><tbody id="properties"></tbody></table>
+        </section>
+        <section><h2>Preview</h2><div class="preview"><div class="eb-card"><h3>eBliss</h3><p class="eb-muted">Theme preview</p><button>Primary</button> <button class="secondary">Secondary</button></div></div></section>
+      </div>
+    </main>
+  </div>
+</div>
+<script>
+const defaults={background:'#f7f7f5',surface:'#ffffff',text:'#1f2933',muted:'#6b7280',border:'#d9dde2',accent:'#5b5bd6',radius:'12px',space:'8px'};
+const keyMap={background:'--eb-bg',surface:'--eb-surface',text:'--eb-text',muted:'--eb-muted',border:'--eb-border',accent:'--eb-accent',radius:'--eb-radius',space:'--eb-space'};
+const colorKeys=new Set(['background','surface','text','muted','border','accent']);
+let values={...defaults};
+const body=document.getElementById('properties');
+function render(){body.innerHTML='';for(const [key,value] of Object.entries(values)){const tr=document.createElement('tr');const label=key.replace(/([A-Z])/g,' $1');const control=colorKeys.has(key)?`<input type="color" data-key="${key}" value="${value}">`:`<input data-key="${key}" value="${value}">`;tr.innerHTML=`<td>${label}</td><td>${control}</td>`;body.append(tr)}body.querySelectorAll('[data-key]').forEach(el=>el.addEventListener('input',()=>{values[el.dataset.key]=el.value;apply()}));}
+function apply(){for(const [key,css] of Object.entries(keyMap))document.documentElement.style.setProperty(css,values[key]);}
+document.getElementById('appearance').addEventListener('change',e=>{document.documentElement.dataset.theme=e.target.value==='system'?'':e.target.value});
+document.getElementById('reset').onclick=()=>{values={...defaults};render();apply()};
+document.getElementById('save').onclick=()=>{localStorage.setItem('ebliss-theme-joshua',JSON.stringify(values));alert('Theme saved locally for this prototype.')};
+try{const saved=JSON.parse(localStorage.getItem('ebliss-theme-joshua'));if(saved)values={...defaults,...saved}}catch{}
+render();apply();
+</script>
+</body>
+</html>
