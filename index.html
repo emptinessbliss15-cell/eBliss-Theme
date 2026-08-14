@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>eBliss Theme</title>
+<link rel="stylesheet" href="theme.css">
+<link rel="stylesheet" href="shell.css">
+<link rel="stylesheet" href="navigation.css">
+<style>
+.eb-theme-editor{display:grid;grid-template-columns:minmax(0,1fr) minmax(280px,420px);gap:16px}
+.eb-properties{width:100%;border-collapse:collapse}
+.eb-properties th,.eb-properties td{border-bottom:1px solid var(--eb-border);padding:7px 8px;text-align:left;vertical-align:middle}
+.eb-properties th{font-weight:600;color:var(--eb-muted)}
+.eb-properties input[type=color]{width:44px;height:30px;padding:2px}
+.eb-properties input[type=text],.eb-properties select{width:100%;padding:6px}
+.eb-preview{min-height:300px;padding:16px;border:1px solid var(--eb-border);border-radius:var(--eb-radius);background:var(--eb-bg)}
+.eb-preview-card{background:var(--eb-surface);border:1px solid var(--eb-border);border-radius:var(--eb-radius);padding:16px;box-shadow:var(--eb-shadow)}
+.eb-preview-accent{display:inline-block;background:var(--eb-accent);color:#fff;padding:6px 10px;border-radius:8px}
+@media(max-width:800px){.eb-theme-editor{grid-template-columns:1fr}.eb-navigation{grid-template-columns:44px 180px 1fr}}
+</style>
+</head>
+<body>
+<div class="eb-shell">
+<header class="eb-header"><div class="eb-header-inner"><div class="eb-row"><a class="eb-brand" href="/">eBliss</a><span class="eb-app-name">Theme</span></div><div class="eb-row"><button id="reset" class="secondary">Reset</button><button id="save">Save</button></div></div></header>
+<div class="eb-navigation">
+<nav class="eb-app-rail" aria-label="Applications"><button class="eb-app-button" aria-current="true" title="Theme">🎨</button><button class="eb-app-button" title="Lists">☷</button></nav>
+<nav class="eb-tree" aria-label="Theme context"><div class="eb-tree-row"><button class="eb-tree-node">▾ Themes</button></div><div class="eb-tree-row" style="padding-left:16px"><button class="eb-tree-node" aria-current="true">• Default</button></div><div class="eb-tree-row" style="padding-left:16px"><button class="eb-tree-node">• My Theme</button></div><div class="eb-tree-row" style="padding-left:16px"><button class="eb-tree-node">• Holarchy</button></div></nav>
+<main class="eb-main">
+<div class="eb-subheader" style="margin:-20px -20px 20px"><div class="eb-subheader-inner"><strong>Theme Properties</strong><div class="eb-view-controls"><button class="eb-view-button" aria-current="true">2D</button><button class="eb-view-button">Text</button></div></div></div>
+<div class="eb-theme-editor">
+<section class="eb-card"><div class="eb-spread"><div><h2 style="margin:0">Default</h2><span class="eb-muted">Editable design tokens</span></div></div><table class="eb-properties"><thead><tr><th>Property</th><th>Value</th></tr></thead><tbody id="properties"></tbody></table></section>
+<aside class="eb-card"><h2>Preview</h2><div class="eb-preview"><div class="eb-preview-card"><h3>eBliss</h3><p>This preview uses the current theme values.</p><span class="eb-preview-accent">Accent</span></div></div></aside>
+</div>
+<p id="status" class="eb-muted"></p>
+</main></div></div>
+<script type="module">
+const defaults={
+  bg:'#f7f7f5',surface:'#ffffff',text:'#1f2933',muted:'#6b7280',border:'#d9dde2',accent:'#5b5bd6',accentHover:'#4848b8',radius:'12px',space:'8px',maxWidth:'760px'
+};
+const labels={bg:'Background',surface:'Surface',text:'Text',muted:'Muted text',border:'Border',accent:'Accent',accentHover:'Accent hover',radius:'Radius',space:'Spacing',maxWidth:'Content max width'};
+const colors=new Set(['bg','surface','text','muted','border','accent','accentHover']);
+const values={...defaults,...JSON.parse(localStorage.getItem('ebliss-theme-values')||'{}')};
+const root=document.documentElement;
+function apply(){for(const [k,v] of Object.entries(values))root.style.setProperty('--eb-'+k,v)}
+function render(){const body=document.querySelector('#properties');body.innerHTML='';for(const key of Object.keys(defaults)){const tr=document.createElement('tr');const td1=document.createElement('td');td1.textContent=labels[key]||key;const td2=document.createElement('td');const input=document.createElement('input');input.type=colors.has(key)?'color':'text';input.value=values[key];input.addEventListener('input',()=>{values[key]=input.value;apply()});td2.append(input);tr.append(td1,td2);body.append(tr)}}
+apply();render();
+document.querySelector('#save').onclick=()=>{localStorage.setItem('ebliss-theme-values',JSON.stringify(values));document.querySelector('#status').textContent='Theme saved on this device.'};
+document.querySelector('#reset').onclick=()=>{Object.assign(values,defaults);apply();render();localStorage.removeItem('ebliss-theme-values');document.querySelector('#status').textContent='Theme reset.'};
+</script>
+</body>
+</html>
