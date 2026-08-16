@@ -5,6 +5,12 @@
   grid-template-columns: 40px 190px minmax(0, 1fr);
 }
 
+/* Apps with an explicit draggable tree splitter need a fourth grid track.
+   This rule is intentionally scoped so ordinary theme navigation is unchanged. */
+.eb-navigation:has(.eb-tree-splitter) {
+  grid-template-columns: 48px var(--tree-width, 220px) 6px minmax(0, 1fr);
+}
+
 .eb-app-rail {
   display: flex;
   flex-direction: column;
