@@ -43,6 +43,6 @@
 .eb-tree-node:hover, .eb-app-button:hover { background: var(--eb-bg); }
 
 @media (max-width: 720px) {
-  .eb-navigation { grid-template-columns: 36px minmax(0, 1fr); }
-  .eb-tree { display: none; }
+  .eb-navigation:not(:has(.eb-tree-splitter)) { grid-template-columns: 36px minmax(0, 1fr); }
+  .eb-navigation:not(:has(.eb-tree-splitter)) .eb-tree { display: none; }
 }
